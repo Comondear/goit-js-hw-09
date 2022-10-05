@@ -4,20 +4,21 @@ const refs = {
   form: document.querySelector('.form'),
   delay: document.querySelector('[name="delay"]'),
   step: document.querySelector('[name="step"]'),
-  amount: document.querySelector('[name="amount"]')
-}
+  amount: document.querySelector('[name="amount"]'),
+};
 
 refs.form.addEventListener('submit', onSubmit);
+
+let position = 0;
 
 function onSubmit(e) {
   e.preventDefault();
   let delay = Number(refs.delay.value);
   const amount = Number(refs.amount.value);
   const step = Number(refs.step.value);
-
-  for (let i = 0; i < amount; i++) {
-    position = i + 1;
-    if (i === 0) {
+  for (let index = 0; index < amount; index++) {
+    position = index + 1;
+    if (index === 0) {
       delay = delay;
     } else {
       delay = delay + step;
@@ -34,8 +35,8 @@ function createPromise(position, delay) {
         // Fulfill
         resolve({ position, delay });
       } else {
-        // Reject
         reject({ position, delay });
+        // Reject
       }
     }, delay);
   });
@@ -49,5 +50,3 @@ function onReject({ position, delay }) {
   console.log(`❌ Rejected promise ${position} in ${delay}ms`);
   Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
 }
-
-
